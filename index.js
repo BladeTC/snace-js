@@ -6,15 +6,10 @@ const player = "@";
 const body = "#";
 const cell = "x";
 let direction = "w";
-const bodyPositions = [
-  {
-    x: 3,
-    y: 3,
-  },
-];
+const bodyPositions = [];
 let playerPosition = {
-  x: 2,
-  y: 3,
+  x: 7,
+  y: 7,
 };
 let row = "";
 
