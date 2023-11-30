@@ -35,3 +35,10 @@ for (let y = 0; y < worldSize; y++) {
   console.log(row);
   row = "";
 }
+//return console.log("0");
+
+process.stdin.on("data", (data) => {
+  // stdin(direction);
+  direction = data.toString();
+  console.log(direction);
+});
