@@ -11,18 +11,6 @@ const bodyPositions = [
     x: 3,
     y: 3,
   },
-  {
-    x: 4,
-    y: 3,
-  },
-  {
-    x: 4,
-    y: 4,
-  },
-  {
-    x: 5,
-    y: 4,
-  },
 ];
 let playerPosition = {
   x: 2,
