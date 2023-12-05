@@ -9,8 +9,8 @@ const cell = "x";
 let direction = "";
 const bodyPositions = [];
 let playerPosition = {
-  x: 7,
-  y: 7,
+  x: 8,
+  y: 4,
 };
 let row = "";
 do {
@@ -30,8 +30,8 @@ do {
       break;
   }
   console.clear();
-  for (let y = 0; y < worldSize; y++) {
-    for (let x = 0; x < worldSize; x++) {
+  for (let y = 0; y < 9; y++) {
+    for (let x = 0; x < 17; x++) {
       let foundBody = false;
 
       if (playerPosition.x == x && playerPosition.y == y) {
