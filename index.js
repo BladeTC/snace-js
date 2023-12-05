@@ -6,7 +6,7 @@ const food = "*";
 const player = "@";
 const body = "#";
 const cell = "x";
-let direction = "w";
+let direction = "";
 const bodyPositions = [];
 let playerPosition = {
   x: 7,
@@ -14,31 +14,29 @@ let playerPosition = {
 };
 let row = "";
 do {
-  direction = readlineSync.prompt({ limit: /[wasdx]/ });
+  if (direction != "") direction = readlineSync.prompt({ limit: /[wasdx]/ });
+  switch (direction) {
+    case "a":
+      playerPosition.x--;
+      break;
+    case "d":
+      playerPosition.x++;
+      break;
+    case "w":
+      playerPosition.y--;
+      break;
+    case "s":
+      playerPosition.y++;
+      break;
+  }
   console.clear();
-  console.log(direction);
   for (let y = 0; y < worldSize; y++) {
     for (let x = 0; x < worldSize; x++) {
       let foundBody = false;
 
       if (playerPosition.x == x && playerPosition.y == y) {
-        if (direction == "w") {
-          row += player;
-          playerPosition.y--;
-          direction = "";
-        } else if (direction == "s") {
-          row += player;
-          playerPosition.y++;
-          direction = "";
-        } else if (direction == "a") {
-          row += player;
-          playerPosition.x--;
-          direction = "";
-        } else if (direction == "d") {
-          row += player;
-          playerPosition.x++;
-          direction = "";
-        }
+        row += player;
+        direction = "";
       } else row += "-";
 
       for (let bodyPosition of bodyPositions) {
@@ -53,5 +51,6 @@ do {
     }
     console.log(row);
     row = "";
+    direction = "p";
   }
 } while (direction != "x");
