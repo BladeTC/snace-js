@@ -17,7 +17,7 @@ let row = "";
 print(worldSizeX, worldSizeY);
 
 while (direction != "x") {
-  readInput();
+  readDirectInputAndChangePlayerPosition();
   print(worldSizeX, worldSizeY);
 }
 
@@ -46,7 +46,7 @@ function print(x, y) {
   }
 }
 
-function readInput() {
+function readDirectInputAndChangePlayerPosition() {
   direction = readlineSync.prompt({ limit: /[wasdx]/ });
   switch (direction) {
     case "a":
