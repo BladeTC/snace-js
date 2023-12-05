@@ -14,10 +14,33 @@ let playerPosition = {
 };
 let row = "";
 do {
+  direction = readlineSync.prompt({ limit: /[wasdx]/ });
   console.clear();
+  console.log(direction);
   for (let y = 0; y < worldSize; y++) {
     for (let x = 0; x < worldSize; x++) {
       let foundBody = false;
+
+      if (playerPosition.x == x && playerPosition.y == y) {
+        if (direction == "w") {
+          row += player;
+          playerPosition.y--;
+          direction = "";
+        } else if (direction == "s") {
+          row += player;
+          playerPosition.y++;
+          direction = "";
+        } else if (direction == "a") {
+          row += player;
+          playerPosition.x--;
+          direction = "";
+        } else if (direction == "d") {
+          row += player;
+          playerPosition.x++;
+          direction = "";
+        }
+      } else row += "-";
+
       for (let bodyPosition of bodyPositions) {
         if (bodyPosition.x == x && bodyPosition.y == y) {
           row += body;
@@ -27,21 +50,8 @@ do {
       if (foundBody) {
         continue;
       }
-      if (playerPosition.x == x && playerPosition.y == y) {
-        row += player;
-        if (direction == "w") {
-          player.y++;
-        }
-      } else row += "-";
     }
     console.log(row);
     row = "";
   }
-  direction = readlineSync.question();
-} while (direction != "a");
-// //return console.log("0");
-
-// process.stdin.on("data", (data) => {
-//   direction = data.toString();
-//   console.log(direction);
-// });
+} while (direction != "x");
