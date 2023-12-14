@@ -6,6 +6,7 @@
     "dev": "npx nodemon",
     "test": "npx mocha"
   },
+  "type": "module",
   "dependencies": {
     "mocha": "^10.2.0",
     "nodemon": "^3.0.1",

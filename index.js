@@ -1,5 +1,5 @@
 // run `node index.js` in the terminal
-var readlineSync = require("readline-sync");
+import { prompt } from "readline-sync";
 
 let worldSizeX = 17;
 let worldSizeY = 9;
@@ -78,7 +78,7 @@ function generateFood() {
 }
 
 function readDirectInputAndChangePlayerPosition() {
-  direction = readlineSync.prompt({ limit: /[wasdx]/ });
+  direction = prompt({ limit: /[wasdx]/ });
   switch (direction) {
     case "a":
       playerPosition.x--;
