@@ -24,7 +24,7 @@ npm run dev
 
 ```
 
-# next - do body generation part1
+# next - refactor code into modules
 
 [Edit in Codeflow ⚡️](https://stackblitz.com/~/github.com/BladeTC/snace-js)
 
