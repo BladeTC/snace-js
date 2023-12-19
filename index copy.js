@@ -96,21 +96,3 @@ function generateFood() {
     foodPosition.y == playerPosition.y
   );
 }
-
-function readDirectInputAndChangePlayerPosition() {
-  direction = prompt({ limit: /[wasdx]/ });
-  switch (direction) {
-    case "a":
-      playerPosition.x--;
-      break;
-    case "d":
-      playerPosition.x++;
-      break;
-    case "w":
-      playerPosition.y--;
-      break;
-    case "s":
-      playerPosition.y++;
-      break;
-  }
-}
