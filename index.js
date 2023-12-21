@@ -9,11 +9,11 @@ let direction = "";
 runWorld();
 
 function runWorld() {
-  let worldSizeX = 17;
-  let worldSizeY = 9;
-  //let grid = [];
-  let foundBodys = 0;
-  const bodyUnits = [];
+  const worldSize = {
+    x: 17,
+    y: 9,
+  };
+  let grid;
 
   let foodPosition = {
     x: 6,
@@ -25,35 +25,79 @@ function runWorld() {
     y: 4,
   };
 
-  const grid = setupWorld(worldSizeY, worldSizeX, playerPosition, foodPosition);
+  //const grid = setupWorld(worldSizeY, worldSizeX, playerPosition, foodPosition);
   do {
-    printUpdatedWorld(grid);
-    for (let y = 0; y < worldSizeY; y++) {
-      for (let x = 0; x < worldSizeX; x++) {
-        if ("player is on the edge") {
-          //loopPlayer();
+    grid = cleanGrid(worldSize);
+    //printUpdatedWorld(grid, playerPosition, foodPosition);
+    for (let y = 0; y < worldSize.y; y++) {
+      for (let x = 0; x < worldSize.x; x++) {
+        if (
+          playerPosition.x == foodPosition.x &&
+          playerPosition.y == foodPosition.y
+        ) {
+          console.clear();
+          generateFood(worldSize, foodPosition, playerPosition);
+          //addBody();
+          printUpdatedWorld(grid, playerPosition, foodPosition);
+        }
+
+        if (
+          playerPosition.x == -1 ||
+          playerPosition.x == worldSize.x ||
+          playerPosition.y == -1 ||
+          playerPosition.y == worldSize.y
+        ) {
+          loopPlayer(worldSize, playerPosition);
+          //printUpdatedWorld(grid, playerPosition, foodPosition);
         }
       }
     }
-    readDirectInputAndChangePlayerPosition();
+    printUpdatedWorld(grid, playerPosition, foodPosition);
+    readDirectInputAndChangePlayerPosition(playerPosition);
   } while (direction != "x");
 }
 
-function setupWorld(worldSizeY, worldSizeX, p, f) {
+function loopPlayer(worldSize, playerPosition) {
+  if (playerPosition.x == -1) {
+    playerPosition.x = worldSize.x - 1;
+  }
+  if (playerPosition.x == worldSize.x) {
+    playerPosition.x = 0;
+  }
+  if (playerPosition.y == -1) {
+    playerPosition.y = worldSize.y - 1;
+  }
+  if (playerPosition.y == worldSize.y) {
+    playerPosition.y = 0;
+  }
+}
+
+function generateFood(worldSize, foodPosition, playerPosition) {
+  do {
+    foodPosition.x = Math.round(Math.random(worldSize.x) * (worldSize.x - 1));
+    foodPosition.y = Math.round(Math.random(worldSize.y) * (worldSize.y - 1));
+  } while (
+    foodPosition.x == playerPosition.x &&
+    foodPosition.y == playerPosition.y
+  );
+}
+
+function cleanGrid(worldSize) {
   let grid = [];
-  for (let y = 0; y < worldSizeY; y++) {
+  for (let y = 0; y < worldSize.y; y++) {
     grid[y] = [];
-    for (let x = 0; x < worldSizeX; x++) {
+    for (let x = 0; x < worldSize.x; x++) {
       grid[y][x] = cell;
     }
   }
-  grid[p.y][p.x] = player;
-  grid[f.y][f.x] = food;
   return grid;
 }
 
-function printUpdatedWorld(grid) {
+function printUpdatedWorld(grid, playerPosition, foodPosition) {
+  console.clear();
   let row = "";
+  grid[foodPosition.y][foodPosition.x] = food;
+  grid[playerPosition.y][playerPosition.x] = player;
   for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[y].length; x++) {
       row += grid[y][x];
@@ -63,7 +107,7 @@ function printUpdatedWorld(grid) {
   }
 }
 
-function readDirectInputAndChangePlayerPosition() {
+function readDirectInputAndChangePlayerPosition(playerPosition) {
   direction = prompt({ limit: /[wasdx]/ });
   switch (direction) {
     case "a":
