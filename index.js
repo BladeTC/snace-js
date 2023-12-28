@@ -9,11 +9,14 @@ let direction = "";
 runWorld();
 
 function runWorld() {
+  let grid;
+
+  let bodyCount = [];
+
   const worldSize = {
     x: 17,
     y: 9,
   };
-  let grid;
 
   let foodPosition = {
     x: 6,
@@ -37,8 +40,8 @@ function runWorld() {
         ) {
           console.clear();
           generateFood(worldSize, foodPosition, playerPosition);
-          //addBody();
-          printUpdatedWorld(grid, playerPosition, foodPosition);
+          createBody(bodyCount, playerPosition);
+          printUpdatedWorld(grid, playerPosition, foodPosition, bodyCount);
         }
 
         if (
@@ -52,9 +55,69 @@ function runWorld() {
         }
       }
     }
-    printUpdatedWorld(grid, playerPosition, foodPosition);
+    printUpdatedWorld(grid, playerPosition, foodPosition, bodyCount);
     readDirectInputAndChangePlayerPosition(playerPosition);
   } while (direction != "x");
+}
+
+function createBody(bodyCount, playerPosition) {
+  let i = 0;
+  console.log(direction);
+  if (!bodyCount[0])
+    switch (direction) {
+      case "w":
+        bodyCount[0] = {
+          x: playerPosition.x,
+          y: playerPosition.y + 1,
+        };
+        break;
+      case "s":
+        bodyCount[0] = {
+          x: playerPosition.x,
+          y: playerPosition.y - 1,
+        };
+        break;
+      case "a":
+        bodyCount[0] = {
+          x: playerPosition.x + 1,
+          y: playerPosition.y,
+        };
+        break;
+      case "d":
+        bodyCount[0] = {
+          x: playerPosition.x - 1,
+          y: playerPosition.y,
+        };
+        break;
+    }
+  else
+    switch (direction) {
+      case "w":
+        bodyCount[bodyCount.length] = {
+          x: playerPosition.x,
+          y: playerPosition.y + 1,
+        };
+        break;
+      case "s":
+        bodyCount[bodyCount.length] = {
+          x: playerPosition.x,
+          y: playerPosition.y - 1,
+        };
+        break;
+      case "a":
+        bodyCount[bodyCount.length] = {
+          x: playerPosition.x + 1,
+          y: playerPosition.y,
+        };
+        break;
+      case "d":
+        bodyCount[bodyCount.length] = {
+          x: playerPosition.x - 1,
+          y: playerPosition.y,
+        };
+        break;
+    }
+  return bodyCount;
 }
 
 function loopPlayer(worldSize, playerPosition) {
@@ -93,11 +156,21 @@ function cleanGrid(worldSize) {
   return grid;
 }
 
-function printUpdatedWorld(grid, playerPosition, foodPosition) {
+function printUpdatedWorld(grid, playerPosition, foodPosition, bodyCount) {
   console.clear();
   let row = "";
+  let i = 0;
+
   grid[foodPosition.y][foodPosition.x] = food;
+
+  if (bodyCount[0] != undefined)
+    do {
+      grid[bodyCount[i].y][bodyCount[i].x] = body;
+      i++;
+    } while (i < bodyCount.length);
+
   grid[playerPosition.y][playerPosition.x] = player;
+
   for (let y = 0; y < grid.length; y++) {
     for (let x = 0; x < grid[y].length; x++) {
       row += grid[y][x];
