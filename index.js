@@ -11,7 +11,7 @@ runWorld();
 function runWorld() {
   let grid;
 
-  let bodyCount = [];
+  let tails = [];
 
   const worldSize = {
     x: 17,
@@ -28,22 +28,21 @@ function runWorld() {
     y: 4,
   };
 
-  //const grid = setupWorld(worldSizeY, worldSizeX, playerPosition, foodPosition);
   do {
     grid = cleanGrid(worldSize);
     //printUpdatedWorld(grid, playerPosition, foodPosition);
     for (let y = 0; y < worldSize.y; y++) {
       for (let x = 0; x < worldSize.x; x++) {
+        //player eats food
         if (
           playerPosition.x == foodPosition.x &&
           playerPosition.y == foodPosition.y
         ) {
-          console.clear();
           generateFood(worldSize, foodPosition, playerPosition);
-          createBody(bodyCount, playerPosition);
-          printUpdatedWorld(grid, playerPosition, foodPosition, bodyCount);
+          createBody(tails, playerPosition);
         }
 
+        //player loops around the edge
         if (
           playerPosition.x == -1 ||
           playerPosition.x == worldSize.x ||
@@ -51,73 +50,34 @@ function runWorld() {
           playerPosition.y == worldSize.y
         ) {
           loopPlayer(worldSize, playerPosition);
-          //printUpdatedWorld(grid, playerPosition, foodPosition);
         }
       }
     }
-    printUpdatedWorld(grid, playerPosition, foodPosition, bodyCount);
+    printUpdatedWorld(grid, playerPosition, foodPosition, tails);
     readDirectInputAndChangePlayerPosition(playerPosition);
   } while (direction != "x");
 }
 
-function createBody(bodyCount, playerPosition) {
-  let i = 0;
-  console.log(direction);
-  if (!bodyCount[0])
-    switch (direction) {
-      case "w":
-        bodyCount[0] = {
-          x: playerPosition.x,
-          y: playerPosition.y + 1,
-        };
-        break;
-      case "s":
-        bodyCount[0] = {
-          x: playerPosition.x,
-          y: playerPosition.y - 1,
-        };
-        break;
-      case "a":
-        bodyCount[0] = {
-          x: playerPosition.x + 1,
-          y: playerPosition.y,
-        };
-        break;
-      case "d":
-        bodyCount[0] = {
-          x: playerPosition.x - 1,
-          y: playerPosition.y,
-        };
-        break;
-    }
-  else
-    switch (direction) {
-      case "w":
-        bodyCount[bodyCount.length] = {
-          x: playerPosition.x,
-          y: playerPosition.y + 1,
-        };
-        break;
-      case "s":
-        bodyCount[bodyCount.length] = {
-          x: playerPosition.x,
-          y: playerPosition.y - 1,
-        };
-        break;
-      case "a":
-        bodyCount[bodyCount.length] = {
-          x: playerPosition.x + 1,
-          y: playerPosition.y,
-        };
-        break;
-      case "d":
-        bodyCount[bodyCount.length] = {
-          x: playerPosition.x - 1,
-          y: playerPosition.y,
-        };
-        break;
-    }
-  return bodyCount;
+function createBody(tails, playerPosition) {
+  let x = playerPosition.x;
+  let y = playerPosition.y;
+
+  switch (direction) {
+    case "w":
+      y++;
+      break;
+    case "s":
+      y--;
+      break;
+    case "a":
+      x++;
+      break;
+    case "d":
+      x--;
+      break;
+  }
+  tails.push({ x, y });
+  return tails;
 }
 
 function loopPlayer(worldSize, playerPosition) {
@@ -156,18 +116,15 @@ function cleanGrid(worldSize) {
   return grid;
 }
 
-function printUpdatedWorld(grid, playerPosition, foodPosition, bodyCount) {
+function printUpdatedWorld(grid, playerPosition, foodPosition, tails) {
   console.clear();
   let row = "";
-  let i = 0;
 
   grid[foodPosition.y][foodPosition.x] = food;
 
-  if (bodyCount[0] != undefined)
-    do {
-      grid[bodyCount[i].y][bodyCount[i].x] = body;
-      i++;
-    } while (i < bodyCount.length);
+  for (const tail of tails) {
+    grid[tail.y][tail.x] = body;
+  }
 
   grid[playerPosition.y][playerPosition.x] = player;
 
