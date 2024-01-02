@@ -1,3 +1,4 @@
+import { prompt } from "readline-sync";
 export { readDirectInputAndChangePlayerPosition };
 
 function readDirectInputAndChangePlayerPosition(playerPosition, direction) {

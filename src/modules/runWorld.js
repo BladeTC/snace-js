@@ -1,10 +1,10 @@
 export { runWorld };
-import { cleanGrid } from "./cleanGrid";
-import { createBody } from "./createBody";
-import { generateFood } from "./generateFood";
-import { loopPlayer } from "./loopPlayer";
-import { printUpdatedWorld } from "./printUpdatedWorld";
-import { readDirectInputAndChangePlayerPosition } from "./readDirectInputAndChangePlayerPosition";
+import { cleanGrid } from "./cleanGrid.js";
+import { createBody } from "./createBody.js";
+import { generateFood } from "./generateFood.js";
+import { loopPlayer } from "./loopPlayer.js";
+import { printUpdatedWorld } from "./printUpdatedWorld.js";
+import { readDirectInputAndChangePlayerPosition } from "./readDirectInputAndChangePlayerPosition.js";
 
 function runWorld() {
   let direction = "";
