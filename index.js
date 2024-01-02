@@ -1,14 +1,10 @@
 // run `node index.js` in the terminal
 import { prompt } from "readline-sync";
-const food = "*";
-const player = "@";
-const body = "#";
-const cell = ".";
-let direction = "";
 
 runWorld();
 
 function runWorld() {
+  let direction = "";
   let grid;
 
   let tails = [];
@@ -39,7 +35,7 @@ function runWorld() {
           playerPosition.y == foodPosition.y
         ) {
           generateFood(worldSize, foodPosition, playerPosition);
-          createBody(tails, playerPosition);
+          createBody(tails, playerPosition, direction);
         }
 
         //player loops around the edge
@@ -53,12 +49,13 @@ function runWorld() {
         }
       }
     }
-    printUpdatedWorld(grid, playerPosition, foodPosition, tails);
-    readDirectInputAndChangePlayerPosition(playerPosition);
+    printUpdatedWorld(grid, playerPosition, foodPosition, tails, direction);
+
+    direction = readDirectInputAndChangePlayerPosition(playerPosition);
   } while (direction != "x");
 }
 
-function createBody(tails, playerPosition) {
+function createBody(tails, playerPosition, direction) {
   let x = playerPosition.x;
   let y = playerPosition.y;
 
@@ -106,6 +103,7 @@ function generateFood(worldSize, foodPosition, playerPosition) {
 }
 
 function cleanGrid(worldSize) {
+  const cell = ".";
   let grid = [];
   for (let y = 0; y < worldSize.y; y++) {
     grid[y] = [];
@@ -119,6 +117,10 @@ function cleanGrid(worldSize) {
 function printUpdatedWorld(grid, playerPosition, foodPosition, tails) {
   console.clear();
   let row = "";
+  const food = "*";
+  const player = "@";
+  const body = "#";
+  const cell = ".";
 
   grid[foodPosition.y][foodPosition.x] = food;
 
@@ -137,7 +139,7 @@ function printUpdatedWorld(grid, playerPosition, foodPosition, tails) {
   }
 }
 
-function readDirectInputAndChangePlayerPosition(playerPosition) {
+function readDirectInputAndChangePlayerPosition(playerPosition, direction) {
   direction = prompt({ limit: /[wasdx]/ });
   switch (direction) {
     case "a":
@@ -153,4 +155,5 @@ function readDirectInputAndChangePlayerPosition(playerPosition) {
       playerPosition.y++;
       break;
   }
+  return direction;
 }
